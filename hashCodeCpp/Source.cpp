@@ -6,92 +6,16 @@
 
 using namespace std;
 
+struct Car {
 
-class Car
-{
-public:
-
-	int corX, corY, time;
+	int carX = 0;
+	int carY = 0;
+	int time = 0;
 	vector<long> rides;
 
-public:
-	Car()
-	{
-		corX = 0;
-		corY = 0;
-		time = 0;
-		rides.clear();
-	}
-
-	Car(int corX, int corY, int time)
-	{
-		this->corX = corX;
-		this->corY = corY;
-		this->time = 0;
-	}
-
-	Car(int corX, int corY, int time, vector<long> rides)
-	{
-		this->corX = corX;
-		this->corY = corY;
-		this->time = time;
-		this->rides = rides;
-	}
-	~Car()
-	{
-
-	}
-
-	void setCorX(int x)
-	{
-		corX = x;
-	}
-
-	void setCorY(int y)
-	{
-		corY = y;
-	}
-
-	void setTime(int t)
-	{
-		time = t;
-	}
-
-	int getCorX()
-	{
-		return corX;
-	}
-
-	int getCorY()
-	{
-		return corY;
-	}
-
-	int getTime()
-	{
-		return time;
-	}
-
-	int calcTime(int xFinish, int yFinish)
-	{
-		int result = abs(corX - xFinish) + abs(yFinish - corY);
-		return result;
-	}
-
-	vector<long> getRides()
-	{
-		return rides;
-	}
-
-	void addRide(int number)
-	{
-		rides.push_back(number);
-	}
 };
 
-
-
-struct rides {
+struct Rides {
 	long a = 0;
 	long b = 0;
 	long x = 0;
@@ -105,7 +29,7 @@ struct rides {
 
 };
 
-bool acompare(rides lhs, rides rhs) { return lhs.s < rhs.s; }
+bool acompare(Rides lhs, Rides rhs) { return lhs.s < rhs.s; }
 
 int main()
 {
@@ -116,7 +40,7 @@ int main()
 	long B = 0;
 	long T = 0;
 
-	rides * rides_list;
+	Rides * rides_list;
 
 	cin >> R;
 	cin >> C;
@@ -125,7 +49,7 @@ int main()
 	cin >> B;
 	cin >> T;
 
-	rides_list = new rides[N];
+	rides_list = new Rides[N];
 
 	for (long i = 0; i < N; i++)
 	{
@@ -143,9 +67,9 @@ int main()
 
 	for (long i = 0; i < F; i++)
 	{
-		car[i].setCorX(0);
-		car[i].setCorY(0);
-		car[i].setTime(0);
+		car[i].carX = 0;
+		car[i].carY = 0;
+		car[i].time = 0;
 	}
 	
 	long time1 = 0;
@@ -156,13 +80,13 @@ int main()
 	
 	for (long i = 0; i < F; i++)
 	{
-		time1 = abs(rides_list[i].a - car[i].getCorX()) + abs(rides_list[i].b - car[i].getCorY());
+		time1 = abs(rides_list[i].a - car[i].carX) + abs(rides_list[i].b - car[i].carY);
 		time1 += rides_list[i].s + abs(rides_list[i].x - rides_list[i].a) + abs(rides_list[i].y - rides_list[i].b);
-		car[i].setCorX(rides_list[i].x);
-		car[i].setCorY(rides_list[i].y);
-		car[i].setTime(time2);
+		car[i].carX = rides_list[i].x;
+		car[i].carY = rides_list[i].y;
+		car[i].time = time2;
 		rides_list[i].flag = false;
-		car[i].rides.push_back(i);
+		car[i].rides.push_back(rides_list[i].id);
 	}
 
 	for (long i = 0; i < N; i++)
@@ -171,7 +95,7 @@ int main()
 		{
 			for (long j = 0; j < F; j++)
 			{
-				time1 = abs(rides_list[i].a - car[j].getCorX()) + abs(rides_list[i].b - car[j].getCorY());
+				time1 = abs(rides_list[i].a - car[j].carX) + abs(rides_list[i].b - car[j].carY);
 				time1 += rides_list[i].s + abs(rides_list[i].x - rides_list[i].a) + abs(rides_list[i].y - rides_list[i].b);
 				if (time1 < time2)
 				{
@@ -179,13 +103,14 @@ int main()
 					nrCar = j;
 				}
 			}
-			car[nrCar].setCorX(rides_list[i].x);
-			car[nrCar].setCorY(rides_list[i].y);
-			car[nrCar].setTime(time2);
+			car[nrCar].carX = rides_list[i].x;
+			car[nrCar].carY = rides_list[i].y;
+			car[nrCar].time = time2;
 			rides_list[i].flag = false;
 			time2 = LONG_MAX;
 			//car[nrCar].addRide(i);
-			car[nrCar].rides.push_back(i);
+			car[nrCar].rides.push_back(rides_list[i].id);
+			//car[nrCar].rides.push_back(i);         Wrong number ride to wector
 			
 
 		}
@@ -198,7 +123,7 @@ int main()
 
 	for (long j = 0; j < F; j++)
 	{
-		rides = car[j].getRides();
+		rides = car[j].rides;
 		cout << rides.size() << " ";
 		for (long i = 0; i < rides.size(); i++)
 		{
